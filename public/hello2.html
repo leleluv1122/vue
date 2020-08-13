@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+        <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+        <script defer src="/__/firebase/init.js"></script>
+        <!-- defer가 있으면 페이지가 다 출력된 후 다운로드 되고 실행 -->
+        <!-- 시간이 걸리는 작업을 뒤로 미뤄서 web page 내용을 좀더 빨리.. -->
+    </head>
+    <body>
+        <div id="app">
+            <h1>{{ title }}</h1>
+            <p>{{ body }}</p>
+        </div>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    title: 'hello world',
+                    body: 'good morning'
+                }
+            })
+
+            // onload: callback함수 등록하기 위한 속성
+            window.onload = function(){
+            // 파이어베이스의 hello항목에 대한 원격참조객체를 구해서 helloRef에 대입
+                let helloRef = firebase.database().ref("hello");
+                helloRef.on('value', (snapshot) => { // db값
+                    let hello = snapshot.val(); // 전달된 값을지역변수hello에 대입
+                    app.title = hello.title;
+                    app.body = hello.body;
+                });
+            };
+        </script>
+    </body>
+</html>
