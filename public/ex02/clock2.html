@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            div#app { padding: 30px; margin: 30px auto; max-width: 500px;
+                border: 1px solid #ccc; box-shadow: 3px 3px 3px #aaa;}
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <h1>현재시각</h1>
+            <div id="time">{{ time }}</div>
+        </div>
+        
+        <script type="text/javascript">
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    time: new Date()
+                },
+                mounted: function() {
+                    let callback = () => this.time = new Date();
+                    setInterval(callback, 1000);
+                }
+                // Vue 앱 객체가 생성된 후, 태그는 생성되었지만 화면에 그려지기전
+                // 앱이 시작될 때 해야할 일을 mounted에 구현
+            })
+        </script>
+    </body>
+</html>
