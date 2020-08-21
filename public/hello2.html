@@ -1,37 +1,37 @@
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
-        <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
-        <script defer src="/__/firebase/init.js"></script>
-        <!-- defer가 있으면 페이지가 다 출력된 후 다운로드 되고 실행 -->
-        <!-- 시간이 걸리는 작업을 뒤로 미뤄서 web page 내용을 좀더 빨리.. -->
-    </head>
-    <body>
-        <div id="app">
-            <h1>{{ title }}</h1>
-            <p>{{ body }}</p>
-        </div>
-        <script>
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    title: 'hello world',
-                    body: 'good morning'
-                }
-            })
-
-            // onload: callback함수 등록하기 위한 속성
-            window.onload = function(){
-            // 파이어베이스의 hello항목에 대한 원격참조객체를 구해서 helloRef에 대입
-                let helloRef = firebase.database().ref("hello");
-                helloRef.on('value', (snapshot) => { // db값
-                    let hello = snapshot.val(); // 전달된 값을지역변수hello에 대입
-                    app.title = hello.title;
-                    app.body = hello.body;
-                });
-            };
-        </script>
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <!-- firebase 서비스를 실행하기 위해 필요한 파일들 링크 -->
+    <!-- defer은 웹 브라우저가 다 실행된 후 다운로드 되서 웹페이지가 좀 더 빨리 화면에 나타난다 -->
+</head>
+<body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <p>{{ body }}</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: 'Im SeungHui.Park',
+                body: 'Nice to meet you'
+            }
+        })
+        window.onload = function () { // callback함수를 등록하기 위한 속성이다.
+	// helloRef에 firebase 데이터베이스의 hello항목을 대입한다.
+            let helloRef = firebase.database().ref("hello");
+	
+	// 원격으로 참조된 객체가 참조하는 db항목값이 변경되자마자 (snapshot) => {} 이 실행된다
+            helloRef.on('value', (snapshot) => { 
+                let hello = snapshot.val(); // hello에 전달된 db항목 값을 대입
+                app.title = hello.title; // db의 title속성값을 앱의 title에 대입
+                app.body = hello.body;
+            });
+        };
+    </script>
+</body>
 </html>
